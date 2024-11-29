@@ -1,17 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"backend/router"
+	"log"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello, World!")
-	})
+	// ルーターを取得
+	r := router.SetupRouter()
 
-	fmt.Println("Server running on port 3000...")
-	if err := http.ListenAndServe(":3000", nil); err != nil {
-		fmt.Println("Error starting server:", err)
+	// サーバーを起動
+	if err := r.Run(":3000"); err != nil {
+		log.Fatalf("Failed to start server: %s", err)
 	}
 }
