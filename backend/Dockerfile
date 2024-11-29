@@ -7,11 +7,11 @@ WORKDIR /app
 # Copy the source code into the container
 COPY . .
 
-# Build the Go application
-RUN go build -o server .
+RUN go mod tidy
+RUN go build -o main
 
 # Expose the port on which the server runs
 EXPOSE 8080
 
 # Start the server
-CMD ["./server"]
+CMD ["./main"]
