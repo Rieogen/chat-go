@@ -48,6 +48,7 @@ func InitDB() (*gorm.DB, error) {
 	db := ConnectDB()
 
 	db.AutoMigrate(&models.Channel{})
+	db.AutoMigrate(&models.Message{})
 	return db, nil
 }
 
