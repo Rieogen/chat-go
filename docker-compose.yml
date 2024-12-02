@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   frontend:
@@ -13,7 +13,7 @@ services:
     depends_on:
       - "mysql"
       - "backend"
-    
+
   backend:
     build:
       context: ./backend
@@ -36,3 +36,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
