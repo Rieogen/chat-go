@@ -14,9 +14,14 @@ func SetupRouter() *gin.Engine {
 	r.GET("/api/channels", func(c *gin.Context) {
 		handlers.GetChannels(c, db)
 	})
-	// r.GET("/api/channels/:id", handlers.GetChannelByID)
 	r.POST("/api/channels", func(c *gin.Context) {
 		handlers.CreateChannel(c, db)
+	})
+	r.GET("/api/channels/:id", func(c *gin.Context) {
+		handlers.GetChannelByID(c, db)
+	})
+	r.POST("/api/channels/:id", func(c *gin.Context) {
+		handlers.PostMessage(c, db)
 	})
 
 	return r
