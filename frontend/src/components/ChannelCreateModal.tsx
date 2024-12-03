@@ -9,12 +9,12 @@ export const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({
   handleModalClose,
   handlePostChannel,
 }) => {
-  const [channelTitle, setChannelTitle] = React.useState<string>("");
+  const [channelName, setChannelName] = React.useState<string>("");
 
-  const handleChannelTitleInputChange = (
+  const handleChannelNameInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setChannelTitle(e.target.value);
+    setChannelName(e.target.value);
   };
 
   return (
@@ -26,13 +26,13 @@ export const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({
           <input
             type="text"
             className="ChannelNameInput"
-            value={channelTitle}
-            onChange={handleChannelTitleInputChange}
+            value={channelName}
+            onChange={handleChannelNameInputChange}
           />
           <button onClick={handleModalClose}>キャンセル</button>
           <button
-            disabled={!channelTitle}
-            onClick={() => handlePostChannel(channelTitle)}
+            disabled={!channelName}
+            onClick={() => handlePostChannel(channelName)}
           >
             作成
           </button>

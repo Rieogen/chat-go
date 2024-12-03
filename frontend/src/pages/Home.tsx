@@ -30,8 +30,7 @@ export const Home: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        // TODO: titleじゃなくてnameにしたい
-        body: JSON.stringify({ title: channelName }),
+        body: JSON.stringify({ name: channelName }),
       });
 
       setCreateChannelModalOpen(false);
@@ -51,7 +50,7 @@ export const Home: React.FC = () => {
         {channels && (
           <ul style={{ listStyleType: "none" }}>
             {channels.map((channel) => (
-              <li key={channel.ID}>{channel.title}</li>
+              <li key={channel.ID}>{channel.name}</li>
             ))}
           </ul>
         )}

@@ -34,7 +34,7 @@ func CreateChannel(c *gin.Context, db *gorm.DB) {
 		return
 	}
 	// チャンネル名のバリデーション
-	if channel.Title == "" {
+	if channel.Name == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "name is required"})
 		return
 	}
