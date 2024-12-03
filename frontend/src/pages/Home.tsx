@@ -46,6 +46,19 @@ export const Home: React.FC = () => {
     }
   }, []);
 
+  const handleChannelClick = useCallback(async (channelId: number) => {
+    try {
+      const response = await fetch(`/api/channels/${channelId}`);
+      if (!response.ok) {
+        throw new Error("Failed to get channel");
+      }
+      const channel = await response.json();
+      console.log(channel);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
   return (
     <>
       <div>
@@ -57,7 +70,17 @@ export const Home: React.FC = () => {
         {channels && (
           <ul style={{ listStyleType: "none" }}>
             {channels.map((channel) => (
-              <li key={channel.ID}>{channel.name}</li>
+              <li key={channel.ID}>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleChannelClick(channel.ID);
+                  }}
+                >
+                  {channel.name}
+                </a>
+              </li>
             ))}
           </ul>
         )}
