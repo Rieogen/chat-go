@@ -39,6 +39,8 @@ func CreateChannel(c *gin.Context, db *gorm.DB) {
 	if database.ErrorDB(result, c) {
 		return
 	}
+
+	c.JSON(http.StatusCreated, channel)
 }
 
 func GetChannelByID(c *gin.Context, db *gorm.DB) {
@@ -110,4 +112,6 @@ func PostMessage(c *gin.Context, db *gorm.DB) {
 	if database.ErrorDB(result, c) {
 		return
 	}
+
+	c.JSON(http.StatusCreated, message)
 }
