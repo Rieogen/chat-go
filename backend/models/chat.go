@@ -6,7 +6,7 @@ import (
 
 type Channel struct {
 	*gorm.Model
-	Title string `json:"title"`
+	Name string `json:"name"`
 	Messages []Message `json:"messages" gorm:"foreignKey:ChannelID"`
 }
 

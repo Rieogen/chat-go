@@ -27,18 +27,23 @@ func GetChannels(c *gin.Context, db *gorm.DB) {
 
 func CreateChannel(c *gin.Context, db *gorm.DB) {
 	fmt.Println("CreateChannel")
-	// TODO: Parse JSON
-	// titleが入力されていなければエラーを返す
 
 	var channel models.Channel
 	if err := c.ShouldBindBodyWithJSON(&channel); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	// チャンネル名のバリデーション
+	if channel.Name == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "name is required"})
+		return
+	}
 	result := db.Create(&channel)
 	if database.ErrorDB(result, c) {
 		return
 	}
+
+	c.JSON(http.StatusCreated, channel)
 }
 
 func GetChannelByID(c *gin.Context, db *gorm.DB) {
@@ -110,4 +115,6 @@ func PostMessage(c *gin.Context, db *gorm.DB) {
 	if database.ErrorDB(result, c) {
 		return
 	}
+
+	c.JSON(http.StatusCreated, message)
 }

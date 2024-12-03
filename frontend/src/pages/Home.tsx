@@ -24,15 +24,21 @@ export const Home: React.FC = () => {
     }
 
     try {
-      // TODO: POSTしたチャンネルを返さないので返すようにしたら戻り値を使用する
-      await fetch("/api/channels", {
+      const response = await fetch("/api/channels", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        // TODO: titleじゃなくてnameにしたい
-        body: JSON.stringify({ title: channelName }),
+        body: JSON.stringify({ name: channelName }),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to post channel");
+      }
+      const newChannel = await response.json();
+      setChannels((prevChannels) =>
+        prevChannels ? [...prevChannels, newChannel] : [newChannel]
+      );
 
       setCreateChannelModalOpen(false);
     } catch (error) {
@@ -51,7 +57,7 @@ export const Home: React.FC = () => {
         {channels && (
           <ul style={{ listStyleType: "none" }}>
             {channels.map((channel) => (
-              <li key={channel.ID}>{channel.title}</li>
+              <li key={channel.ID}>{channel.name}</li>
             ))}
           </ul>
         )}
