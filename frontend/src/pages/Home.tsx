@@ -2,6 +2,7 @@ import React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { channel } from "../types/schema";
 import { ChannelCreateModal } from "../components/ChannelCreateModal";
+import "./Home.css";
 
 export const Home: React.FC = () => {
   const [channels, setChannels] = useState<channel[] | undefined>(undefined);
@@ -60,37 +61,44 @@ export const Home: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <div>
-        <button onClick={() => setCreateChannelModalOpen(true)}>
-          Add Channel
-        </button>
+    <div className="HomeContainer">
+      <div className="pageTitle">
+        <h2>home</h2>
       </div>
-      <div>
-        {channels && (
-          <ul style={{ listStyleType: "none" }}>
-            {channels.map((channel) => (
-              <li key={channel.ID}>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleChannelClick(channel.ID);
-                  }}
-                >
-                  {channel.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
+      <div className="channels">
+        <div className="title">
+          <h3>Channels</h3>
+          <button onClick={() => setCreateChannelModalOpen(true)}>
+            +<span className="tooltip">チャンネルを作成</span>
+          </button>
+        </div>
+        <div className="channelList">
+          {channels && (
+            <ul>
+              {channels.map((channel) => (
+                <li key={channel.ID}>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleChannelClick(channel.ID);
+                    }}
+                  >
+                    # {channel.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
+      <div className="messages"></div>
       {createChannelModalOpen && (
         <ChannelCreateModal
           handleModalClose={() => setCreateChannelModalOpen(false)}
           handlePostChannel={handlePostChannel}
         />
       )}
-    </>
+    </div>
   );
 };

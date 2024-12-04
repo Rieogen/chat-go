@@ -1,0 +1,87 @@
+.HomeContainer {
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: 1fr 5fr;
+  width: 100%;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+
+  & .pageTitle {
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+
+  & .channels {
+    width: 200px;
+    grid-column: 1 / 2;
+    grid-row: 2 / 4;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+
+    & .title {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid #aaa;
+
+      > h3 {
+        margin: 0;
+      }
+
+      > button {
+        width: 25px;
+        height: 25px;
+        background-color: #f0f0f0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+
+        &:hover .tooltip {
+          visibility: visible;
+          opacity: 1;
+        }
+
+        .tooltip {
+          visibility: hidden;
+          background-color: #333;
+          color: #fff;
+          text-align: center;
+          border-radius: 4px;
+          padding: 4px 10px;
+          position: absolute;
+          bottom: 120%;
+          left: 50%;
+          transform: translateX(-50%);
+          white-space: nowrap;
+          z-index: 1;
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
+      }
+    }
+
+    & .channelList {
+      > ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 8px 20px;
+
+        > li {
+          padding-top: 4px;
+        }
+      }
+    }
+  }
+
+  & .messages {
+    min-width: 400px;
+    grid-column: 2 / 4;
+    grid-row: 2 / 4;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+}
