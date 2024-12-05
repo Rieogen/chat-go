@@ -83,5 +83,29 @@
     grid-row: 2 / 4;
     border-right: 1px solid #000;
     border-bottom: 1px solid #000;
+
+    & .title {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid #aaa;
+
+      > h3 {
+        margin: 0;
+      }
+    }
+
+    & .messageList {
+      > ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 8px 20px;
+
+        > li {
+          padding-top: 4px;
+        }
+      }
+    }
   }
 }

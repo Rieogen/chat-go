@@ -1,12 +1,19 @@
 import React from "react";
 import { useCallback, useEffect, useState } from "react";
-import { channel } from "../types/schema";
+import { channel, message } from "../types/schema";
 import { ChannelCreateModal } from "../components/ChannelCreateModal";
 import "./Home.css";
+import { useNavigate, useParams } from "react-router";
 
 export const Home: React.FC = () => {
   const [channels, setChannels] = useState<channel[] | undefined>(undefined);
+  const [channel, setChannel] = useState<string | undefined>(undefined);
+  const [messages, setMessages] = useState<message[] | undefined>(undefined);
+
   const [createChannelModalOpen, setCreateChannelModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const { channelId } = useParams();
 
   useEffect(() => {
     fetch("/api/channels")
@@ -17,6 +24,17 @@ export const Home: React.FC = () => {
       })
       .catch((error) => console.error(error));
   }, []);
+
+  useEffect(() => {
+    if (!channelId) return;
+    fetch(`/api/channels/${channelId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setChannel(data.name);
+        setMessages(data.messages);
+      })
+      .catch((error) => console.error(error));
+  }, [channelId]);
 
   const handlePostChannel = useCallback(async (channelName: string) => {
     if (!channelName) {
@@ -47,18 +65,12 @@ export const Home: React.FC = () => {
     }
   }, []);
 
-  const handleChannelClick = useCallback(async (channelId: number) => {
-    try {
-      const response = await fetch(`/api/channels/${channelId}`);
-      if (!response.ok) {
-        throw new Error("Failed to get channel");
-      }
-      const channel = await response.json();
-      console.log(channel);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const handleChannelClick = useCallback(
+    (channelId: number) => {
+      navigate(`/channels/${channelId}`);
+    },
+    [navigate]
+  );
 
   return (
     <div className="HomeContainer">
@@ -92,7 +104,25 @@ export const Home: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="messages"></div>
+      <div className="messages">
+        <div className="title">
+          <h3># {channel}</h3>
+        </div>
+        <div className="messageList">
+          {messages && (
+            <ul>
+              {messages.map((message) => (
+                <li key={message.ID}>
+                  <div className="message">
+                    <div className="userName">{message.user_name}</div>
+                    <div className="content">{message.message}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
       {createChannelModalOpen && (
         <ChannelCreateModal
           handleModalClose={() => setCreateChannelModalOpen(false)}
