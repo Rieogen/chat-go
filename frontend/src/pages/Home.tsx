@@ -49,6 +49,7 @@ export const Home: React.FC = () => {
   const [channels, setChannels] = useState<channel[] | undefined>(undefined);
   const [channel, setChannel] = useState<string | undefined>(undefined);
   const [messages, setMessages] = useState<message[] | undefined>(undefined);
+  const [newMessage, setNewMessage] = useState<string>("");
 
   const [createChannelModalOpen, setCreateChannelModalOpen] = useState(false);
 
@@ -112,6 +113,32 @@ export const Home: React.FC = () => {
     [navigate]
   );
 
+  const handlePostMessage = useCallback(async () => {
+    if (!channelId || !newMessage.trim()) return;
+
+    try {
+      const response = await fetch(`/api/channels/${channelId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_name: "test", content: newMessage }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to post message");
+      }
+
+      const postedMessage = await response.json();
+      setMessages((prevMessages) =>
+        prevMessages ? [...prevMessages, postedMessage] : [postedMessage]
+      );
+      setNewMessage("");
+    } catch (error) {
+      console.error(error);
+    }
+  }, [channelId, newMessage]);
+
   return (
     <div className="HomeContainer">
       <div className="pageTitle">
@@ -161,6 +188,22 @@ export const Home: React.FC = () => {
             </ul>
           )}
         </div>
+        {channelId && (
+          <div className="messageInputContainer">
+            <input
+              type="text"
+              placeholder="メッセージを入力..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handlePostMessage();
+                }
+              }}
+            />
+            <button onClick={handlePostMessage}>送信</button>
+          </div>
+        )}
       </div>
       {createChannelModalOpen && (
         <ChannelCreateModal
