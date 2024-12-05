@@ -4,8 +4,48 @@ import { channel, message } from "../types/schema";
 import { ChannelCreateModal } from "../components/ChannelCreateModal";
 import "./Home.css";
 import { useNavigate, useParams } from "react-router";
+import { Message } from "../components/Message";
 
 export const Home: React.FC = () => {
+  /*
+  const [channels, setChannels] = useState<channel[] | undefined>([
+    {
+      ID: 1,
+      name: "general",
+      CreatedAt: "2021-01-01T00:00:00Z",
+      UpdatedAt: "2021-01-01T00:00:00Z",
+      DeletedAt: null,
+    },
+    {
+      ID: 2,
+      name: "random",
+      CreatedAt: "2021-01-01T00:00:00Z",
+      UpdatedAt: "2021-01-01T00:00:00Z",
+      DeletedAt: null,
+    },
+  ]);
+  const [messages, setMessages] = useState<message[]>([
+    {
+      ID: 1,
+      channelId: 1,
+      user_name: "user1",
+      message: "hello",
+      CreatedAt: "2021-01-01T00:00:00Z",
+      UpdatedAt: "2021-01-01T00:00:00Z",
+      DeletedAt: null,
+    },
+    {
+      ID: 2,
+      channelId: 1,
+      user_name: "user2",
+      message: "world",
+      CreatedAt: "2021-01-01T00:00:00Z",
+      UpdatedAt: "2021-01-01T00:00:00Z",
+      DeletedAt: null,
+    },
+  ]);
+  const [channel, setChannel] = useState<string>("general");
+  */
   const [channels, setChannels] = useState<channel[] | undefined>(undefined);
   const [channel, setChannel] = useState<string | undefined>(undefined);
   const [messages, setMessages] = useState<message[] | undefined>(undefined);
@@ -114,8 +154,7 @@ export const Home: React.FC = () => {
               {messages.map((message) => (
                 <li key={message.ID}>
                   <div className="message">
-                    <div className="userName">{message.user_name}</div>
-                    <div className="content">{message.message}</div>
+                    <Message message={message} />
                   </div>
                 </li>
               ))}
