@@ -105,7 +105,7 @@ func PostMessage(c *gin.Context, db *gorm.DB) {
 	}
 
 	// usernameとmessageのバリデーション
-	if message.UserName == "" || message.Message == "" {
+	if message.UserName == "" || message.Content == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "username and message are required"})
 		return
 	}

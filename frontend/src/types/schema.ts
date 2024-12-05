@@ -15,5 +15,5 @@ export type message = {
 
   channelId: number;
   user_name: string;
-  message: string;
+  content: string;
 };
